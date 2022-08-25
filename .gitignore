@@ -24,4 +24,4 @@ target/
 hs_err_pid*
 
 # IntelliJ
-idea/
+.idea/
