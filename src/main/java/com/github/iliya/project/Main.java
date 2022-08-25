@@ -1,7 +1,10 @@
 package com.github.iliya.project;
 
+import com.github.iliya.project.listener.ReadyEventListener;
+import com.github.iliya.project.listener.SlashCommandInteractionEventListener;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
+import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 
 import javax.security.auth.login.LoginException;
@@ -58,6 +61,9 @@ public class Main {
         builder.enableIntents(GatewayIntent.DIRECT_MESSAGES);
         builder.enableIntents(GatewayIntent.DIRECT_MESSAGE_REACTIONS);
         builder.enableIntents(GatewayIntent.MESSAGE_CONTENT);
+
+        builder.addEventListeners(new ReadyEventListener());
+        builder.addEventListeners(new SlashCommandInteractionEventListener());
 
         builder.setAutoReconnect(true);
 
