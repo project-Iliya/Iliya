@@ -1,9 +1,16 @@
 package com.github.iliya.project;
 
+import com.github.iliya.project.command.CommandManager;
+import com.github.iliya.project.command.HelloCommand;
+import com.github.iliya.project.command.IliyaCommand;
 import com.github.iliya.project.listener.ReadyEventListener;
 import com.github.iliya.project.listener.SlashCommandInteractionEventListener;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
+import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.entities.Message;
+import net.dv8tion.jda.api.entities.TextChannel;
+import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 
@@ -66,6 +73,10 @@ public class Main {
         builder.addEventListeners(new SlashCommandInteractionEventListener());
 
         builder.setAutoReconnect(true);
+
+        CommandManager commandManager = new CommandManager("!");
+        commandManager.register("hello", new HelloCommand());
+
 
         try {
             builder.build();
