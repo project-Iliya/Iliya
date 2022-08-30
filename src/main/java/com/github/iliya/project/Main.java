@@ -3,6 +3,7 @@ package com.github.iliya.project;
 import com.github.iliya.project.command.CommandManager;
 import com.github.iliya.project.command.HelloCommand;
 import com.github.iliya.project.command.IliyaCommand;
+import com.github.iliya.project.listener.MessageReceivedEventListener;
 import com.github.iliya.project.listener.ReadyEventListener;
 import com.github.iliya.project.listener.SlashCommandInteractionEventListener;
 import net.dv8tion.jda.api.JDA;
@@ -24,6 +25,7 @@ public class Main {
 
     // bot main variable
     public static JDA jda;
+    public static CommandManager commandManager;
 
     public static void main(String[] args) {
         System.out.println("Iliya has been started!");
@@ -71,10 +73,11 @@ public class Main {
 
         builder.addEventListeners(new ReadyEventListener());
         builder.addEventListeners(new SlashCommandInteractionEventListener());
+        builder.addEventListeners(new MessageReceivedEventListener());
 
         builder.setAutoReconnect(true);
 
-        CommandManager commandManager = new CommandManager("!");
+        commandManager = new CommandManager("!");
         commandManager.register("hello", new HelloCommand());
 
 
