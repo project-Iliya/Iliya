@@ -28,7 +28,13 @@ public class CommandManager {
     }
 
     public IliyaCommand getCommand(String name) {
-        return commands.get(name);
+        String lower = name.toLowerCase();
+        for (String key : commands.keySet()) {
+            if (key.toLowerCase().equals(lower)) {
+                return commands.get(key);
+            }
+        }
+        return null;
     }
 
     public Map<String, IliyaCommand> getCommands() {
@@ -40,9 +46,7 @@ public class CommandManager {
             String[] split = event.getMessage().getContentRaw().split(" ");
             String cmd = split[0].substring(prefix.length());
             String[] args = new String[split.length - 1];
-            for (int i = 1; i < split.length; i++) {
-                args[i - 1] = split[i];
-            }
+            System.arraycopy(split, 1, args, 0, split.length - 1);
             if (getCommand(cmd) != null) {
                 getCommand(cmd).execute(cmd, args, event.getMessage(), event.getMessage().getChannel().asTextChannel(), event.getGuild(), event.getAuthor(), event.getJDA().getSelfUser());
             }
