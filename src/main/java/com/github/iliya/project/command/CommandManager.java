@@ -8,23 +8,22 @@ public class CommandManager {
 
 
     private Map<String, IliyaCommand> commands;
+    private Map<String, String> aliases;
     private String prefix;
 
     public CommandManager(String prefix) {
         commands = new java.util.HashMap<>();
+        aliases = new java.util.HashMap<>();
         this.prefix = prefix;
     }
 
-    public void register(String name, IliyaCommand command) {
+    public void register(String name, IliyaCommand command, String... aliases) {
         commands.put(name, command);
-    }
-
-    public void setPrefix(String prefix) {
-        this.prefix = prefix;
-    }
-
-    public String getPrefix() {
-        return prefix;
+        if (aliases != null) {
+            for (String alias : aliases) {
+                this.aliases.put(alias, name);
+            }
+        }
     }
 
     public IliyaCommand getCommand(String name) {
@@ -34,11 +33,12 @@ public class CommandManager {
                 return commands.get(key);
             }
         }
+        for (String key : aliases.keySet()) {
+            if (key.toLowerCase().equals(lower)) {
+                return commands.get(aliases.get(key));
+            }
+        }
         return null;
-    }
-
-    public Map<String, IliyaCommand> getCommands() {
-        return commands;
     }
 
     public void run(MessageReceivedEvent event) {
